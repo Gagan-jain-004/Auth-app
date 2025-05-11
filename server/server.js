@@ -14,11 +14,11 @@ const port=process.env.PORT || 4000;
 
 connectDB();
 
-const allowedOrigins = ['http://localhost:5173']
+
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({origin: allowedOrigins[0],credentials: true}));    // to let u able to send cookie in response 
+app.use(cors({origin:process.env.FRONTEND_URL,credentials: true}));    // to let u able to send cookie in response 
 
 
 //api endpoints
