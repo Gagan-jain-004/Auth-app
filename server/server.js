@@ -20,9 +20,11 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
   origin: [
+     "http://localhost:5173",
     "https://auth-app-git-main-gagan-jain-004s-projects.vercel.app",
     "https://auth-app-gagan-jain-004s-projects.vercel.app",
-    "https://auth-app-beta-puce.vercel.app"
+    "https://auth-app-beta-puce.vercel.app",
+
   ],
   credentials: true
 }));
