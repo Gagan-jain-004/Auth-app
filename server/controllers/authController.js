@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";             // for authentication
 import userModel from "../models/userModel.js";
 import transporter  from "../config/nodemailer.js";
 
+
+
 export const register = async(req,res)=>{
 
     
@@ -41,7 +43,7 @@ export const register = async(req,res)=>{
 
         // sending welcome email
             const mailOptions = {
-                from: process.env.SENDER_EMAIL,
+                from: process.env.SMTP_USER,
                 to : email,
                 subject: 'HI',
                 text: `Welcome to our website. Your account has been created with email id: ${email}`,
@@ -54,7 +56,7 @@ export const register = async(req,res)=>{
         
         
     }catch(error){
-        res.json({success: false,message: error.message})
+        res.json({success: false,message: error});
     }
 }
 
@@ -131,8 +133,8 @@ export const logout = async (req,res)=>{
 
 export const sendVerifyOtp = async (req,res)=>{
     try{
-        const {userId} = req.body;
-        const user = await userModel.findById(userId);
+        const id= req.user;
+        const user = await userModel.findById(id);
 
         if(user.isAccountVerified){
             return res.json({success: false,message: "Account is Already Verified"})
@@ -165,15 +167,16 @@ export const sendVerifyOtp = async (req,res)=>{
 
 
 //verify the email using otp 
-export const verifyEmail = async ()=>{
-    const {userId,otp} = req.body;
+export const verifyEmail = async (req,res)=>{
+    const id =req.user;
+    const {otp} = req.body;
 
-    if(!userid || !otp){
+    if(!id || !otp){
         return res.json({success: false, message: "Missing Details"})
     }
 
     try{
-        const user = await userModel.findById(userId);
+        const user = await userModel.findById(id);
     
         if(!user){
             return res.json({success: false, message: 'User not found '})
@@ -262,6 +265,8 @@ export const resetPassword = async (req,res)=>{
 
     try{
         const user = await userModel.findOne({email});
+        console.log(user);
+        
         if(!user){
             return res.json({success: false, message: "User not found"});
 
@@ -281,7 +286,7 @@ export const resetPassword = async (req,res)=>{
 
         user.password = hashedPassword;
         user.resetOtp= "";
-        resetOtpExpiredAt = 0;
+        user.resetOtpExpiredAt = 0;
 
         await user.save();
 
