@@ -18,7 +18,15 @@ connectDB();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({origin:process.env.FRONTEND_URL,credentials: true}));    // to let u able to send cookie in response 
+app.use(cors({
+  origin: [
+    "https://auth-app-git-main-gagan-jain-004s-projects.vercel.app",
+    "https://auth-app-gagan-jain-004s-projects.vercel.app",
+    "https://auth-app-beta-puce.vercel.app"
+  ],
+  credentials: true
+}));
+   // to let u able to send cookie in response 
 
 
 //api endpoints
