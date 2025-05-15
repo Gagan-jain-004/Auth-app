@@ -19,7 +19,7 @@ RESTful API with Express.js and Node.js
 MongoDB database integration
 
 🛠️ Tech Stack
-Frontend: React, Axios, Tailwind CSS (optional)
+Frontend: React, Axios, Tailwind CSS 
 
 Backend: Node.js, Express.js
 
